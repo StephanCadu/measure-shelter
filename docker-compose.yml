@@ -1,0 +1,22 @@
+version: '3.7'
+services:
+  measure-shelter:
+    build:
+      context: .
+      target: production
+    restart: always
+    ports:
+      - 8080:8080
+      - 8000:8000
+    depends_on:
+      - mongo
+    container_name: backend
+    environment:
+      - MONGO_URI=mongodb://mongo_db:27017/measure-shelter
+    
+  mongo:
+    image: mongo
+    restart: always
+    ports:
+      - 27017:27017
+    container_name: mongo
