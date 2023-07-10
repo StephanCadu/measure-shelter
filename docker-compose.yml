@@ -1,9 +1,7 @@
 version: '3.7'
 services:
   measure-shelter:
-    build:
-      context: .
-      target: production
+    build: .
     restart: always
     ports:
       - 8080:8080
