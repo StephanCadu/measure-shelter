@@ -20,6 +20,10 @@ public class Measure {
 
   private double groundHumidity;
 
+  private double precipitation;
+
+  private double solarRadiation;
+
   private double windSpeed;
 
   private Direction windDirection;
@@ -100,6 +104,22 @@ public class Measure {
 
   public void setGroundHumidity(double groundHumidity) {
     this.groundHumidity = groundHumidity;
+  }
+
+  public double getPrecipitation() {
+    return precipitation;
+  }
+
+  public void setPrecipitation(double precipitation) {
+    this.precipitation = precipitation;
+  }
+
+  public double getSolarRadiation() {
+    return solarRadiation;
+  }
+
+  public void setSolarRadiation(double solarRadiation) {
+    this.solarRadiation = solarRadiation;
   }
 
   public double getWindSpeed() {
