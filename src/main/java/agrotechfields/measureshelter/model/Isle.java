@@ -20,7 +20,7 @@ public class Isle {
   private boolean status;
 
   /**
-   * Constructor with no args.
+   * Default constructor.
    */
   public Isle() {}
 
