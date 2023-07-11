@@ -43,16 +43,20 @@ public class Measure {
    * @param groundTemp Ground temperature.
    * @param airHmdt Air humidity.
    * @param groundHmdt Ground humidity.
+   * @param precipitation Precipitation
+   * @param solarRad Solar radiation.
    * @param windSpeed Wind speed.
    * @param direction Wind direction.
    */
   public Measure(int isleId, double airTemp, double groundTemp, double airHmdt, double groundHmdt,
-      double windSpeed, Direction direction) {
+      double precipitation, double solarRad, double windSpeed, Direction direction) {
     this.isleId = isleId;
     this.airTemperature = airTemp;
     this.groundTemperature = groundTemp;
     this.airHumidity = airHmdt;
     this.groundHumidity = groundHmdt;
+    this.precipitation = precipitation;
+    this.solarRadiation = solarRad;
     this.windSpeed = windSpeed;
     this.windDirection = direction;
     this.timestamp = LocalDateTime.now().atOffset(ZoneOffset.of("-03:00")).toLocalDateTime();
