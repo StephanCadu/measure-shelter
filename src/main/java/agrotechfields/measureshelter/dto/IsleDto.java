@@ -82,7 +82,7 @@ public class IsleDto {
     this.altitude = altitude;
   }
 
-  public boolean isStatus() {
+  public boolean getStatus() {
     return status;
   }
 
