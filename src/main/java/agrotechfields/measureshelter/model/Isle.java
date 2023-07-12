@@ -81,7 +81,7 @@ public class Isle {
     this.altitude = altitude;
   }
 
-  public boolean isStatus() {
+  public boolean getStatus() {
     return status;
   }
 
