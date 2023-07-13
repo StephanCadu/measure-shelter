@@ -19,7 +19,10 @@ public class User {
   /**
    * Default constructor.
    */
-  public User() {}
+  public User() {
+    this.role = Role.USER;
+    this.active = true;
+  }
 
   /**
    * Constructor with args.
