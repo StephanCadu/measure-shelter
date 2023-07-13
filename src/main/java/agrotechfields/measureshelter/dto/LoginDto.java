@@ -28,7 +28,6 @@ public class LoginDto {
    * 
    * @param username User name.
    * @param password User password.
-   * @param role User role.
    */
   public LoginDto(String username, String password) {
     this.username = username;
