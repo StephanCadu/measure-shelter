@@ -62,8 +62,8 @@ public class MeasureService {
     return this.measureRepository.insert(measure);
   }
 
-  public void deleteIsle(int isleId) {
-    this.isleRepository.deleteById(isleId);
+  public void deleteMeasure(int measureId) {
+    this.measureRepository.deleteById(measureId);
   }
 
   public Measure updateMeasure(int measureId, MeasureDto measureDto) {
