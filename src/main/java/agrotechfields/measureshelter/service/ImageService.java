@@ -3,10 +3,12 @@ package agrotechfields.measureshelter.service;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.ImageDto;
 import agrotechfields.measureshelter.model.Image;
 import agrotechfields.measureshelter.repository.ImageRepository;
 
+@Service
 public class ImageService {
 
   @Autowired
