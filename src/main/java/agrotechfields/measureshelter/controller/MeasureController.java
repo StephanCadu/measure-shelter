@@ -29,13 +29,13 @@ public class MeasureController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Measure> findMeasureById(@PathVariable int measureId) {
+  public ResponseEntity<Measure> findMeasureById(@PathVariable("id") int measureId) {
     Measure measure = this.measureService.findMeadureById(measureId);
     return ResponseEntity.status(HttpStatus.OK).body(measure);
   }
 
   @GetMapping("/byisle/{id}")
-  public ResponseEntity<List<Measure>> findMeasuresByIsle(@PathVariable int isleId) {
+  public ResponseEntity<List<Measure>> findMeasuresByIsle(@PathVariable("id") int isleId) {
     return ResponseEntity.status(HttpStatus.OK)
         .body(this.measureService.findMeasuresByIsle(isleId));
   }
@@ -47,13 +47,13 @@ public class MeasureController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteMeasure(@PathVariable int measureId) {
+  public ResponseEntity<String> deleteMeasure(@PathVariable("id") int measureId) {
     this.measureService.deleteMeasure(measureId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Measure> updateMeasure(@PathVariable int measureId,
+  public ResponseEntity<Measure> updateMeasure(@PathVariable("id") int measureId,
       @RequestBody MeasureDto measureDto) {
     Measure measure = this.measureService.updateMeasure(measureId, measureDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(measure);

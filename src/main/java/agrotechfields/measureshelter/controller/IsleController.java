@@ -30,13 +30,13 @@ public class IsleController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Isle> findIsleById(@PathVariable int isleId) {
+  public ResponseEntity<Isle> findIsleById(@PathVariable("id") int isleId) {
     Isle isle = this.isleService.findIsleById(isleId);
     return ResponseEntity.status(HttpStatus.OK).body(isle);
   }
 
   @GetMapping("/is/{name}")
-  public ResponseEntity<Isle> findIsleByName(@PathVariable String name) {
+  public ResponseEntity<Isle> findIsleByName(@PathVariable("name") String name) {
     Isle isle = this.isleService.findIsleByName(name);
     return ResponseEntity.status(HttpStatus.OK).body(isle);
   }
@@ -48,19 +48,20 @@ public class IsleController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteIsle(@PathVariable int isleId) {
+  public ResponseEntity<String> deleteIsle(@PathVariable("id") int isleId) {
     this.isleService.deleteIsle(isleId);
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Isle> updateIsle(@PathVariable int isleId, @RequestBody IsleDto isleDto) {
+  public ResponseEntity<Isle> updateIsle(@PathVariable("id") int isleId,
+      @RequestBody IsleDto isleDto) {
     Isle isle = this.isleService.updateIsle(isleId, isleDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(isle);
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Boolean> updateIsleStatus(@PathVariable int isleId,
+  public ResponseEntity<Boolean> updateIsleStatus(@PathVariable("id") int isleId,
       @RequestBody boolean status) {
     this.isleService.updateIsleStatus(isleId, status);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(status);
