@@ -1,6 +1,8 @@
 package agrotechfields.measureshelter.controller;
 
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +31,8 @@ public class MeasureController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Measure> findMeasureById(@PathVariable("id") int measureId) {
-    Measure measure = this.measureService.findMeadureById(measureId);
+  public ResponseEntity<Measure> findMeasureById(@PathVariable("id") String measureId) {
+    Measure measure = this.measureService.findMeasureById(new ObjectId(measureId));
     return ResponseEntity.status(HttpStatus.OK).body(measure);
   }
 
@@ -47,15 +49,17 @@ public class MeasureController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteMeasure(@PathVariable("id") int measureId) {
-    this.measureService.deleteMeasure(measureId);
+  @RolesAllowed("ADMIN")
+  public ResponseEntity<String> deleteMeasure(@PathVariable("id") String measureId) {
+    this.measureService.deleteMeasure(new ObjectId(measureId));
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Measure> updateMeasure(@PathVariable("id") int measureId,
+  @RolesAllowed("ADMIN")
+  public ResponseEntity<Measure> updateMeasure(@PathVariable("id") String measureId,
       @RequestBody MeasureDto measureDto) {
-    Measure measure = this.measureService.updateMeasure(measureId, measureDto);
+    Measure measure = this.measureService.updateMeasure(new ObjectId(measureId), measureDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(measure);
   }
 }
