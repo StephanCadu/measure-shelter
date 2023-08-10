@@ -1,13 +1,14 @@
 package agrotechfields.measureshelter.model;
 
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document
 public class Isle {
 
-  @Id
-  private int id;
+  @MongoId
+  private ObjectId id;
 
   private String name;
 
@@ -33,7 +34,9 @@ public class Isle {
    * @param altitude Isle altitude.
    * @param status Isle initial status.
    */
-  public Isle(String name, double longitude, double latitude, double altitude, boolean status) {
+  public Isle(ObjectId id, String name, double longitude, double latitude, double altitude,
+      boolean status) {
+    this.id = id;
     this.name = name;
     this.longitude = longitude;
     this.latitude = latitude;
@@ -41,11 +44,11 @@ public class Isle {
     this.status = status;
   }
 
-  public int getId() {
+  public ObjectId getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(ObjectId id) {
     this.id = id;
   }
 
