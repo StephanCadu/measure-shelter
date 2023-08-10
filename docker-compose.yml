@@ -6,8 +6,8 @@ services:
     ports:
       - 8080:8080
       - 8000:8000
-    depends_on:
-      - mongo
+    links:
+      - mongo:database
     container_name: backend
     environment:
       - MONGO_URI=mongodb://mongo_db:27017/measure-shelter
