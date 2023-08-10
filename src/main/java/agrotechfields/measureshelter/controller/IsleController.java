@@ -1,6 +1,8 @@
 package agrotechfields.measureshelter.controller;
 
 import java.util.List;
+import javax.annotation.security.RolesAllowed;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +32,8 @@ public class IsleController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Isle> findIsleById(@PathVariable("id") int isleId) {
-    Isle isle = this.isleService.findIsleById(isleId);
+  public ResponseEntity<Isle> findIsleById(@PathVariable("id") String isleId) {
+    Isle isle = this.isleService.findIsleById(new ObjectId(isleId));
     return ResponseEntity.status(HttpStatus.OK).body(isle);
   }
 
@@ -48,22 +50,24 @@ public class IsleController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<String> deleteIsle(@PathVariable("id") int isleId) {
-    this.isleService.deleteIsle(isleId);
+  @RolesAllowed("ADMIN")
+  public ResponseEntity<String> deleteIsle(@PathVariable("id") String isleId) {
+    this.isleService.deleteIsle(new ObjectId(isleId));
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Isle> updateIsle(@PathVariable("id") int isleId,
+  @RolesAllowed("ADMIN")
+  public ResponseEntity<Isle> updateIsle(@PathVariable("id") String isleId,
       @RequestBody IsleDto isleDto) {
-    Isle isle = this.isleService.updateIsle(isleId, isleDto);
+    Isle isle = this.isleService.updateIsle(new ObjectId(isleId), isleDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(isle);
   }
 
   @PatchMapping("/{id}")
-  public ResponseEntity<Boolean> updateIsleStatus(@PathVariable("id") int isleId,
+  public ResponseEntity<Boolean> updateIsleStatus(@PathVariable("id") String isleId,
       @RequestBody boolean status) {
-    this.isleService.updateIsleStatus(isleId, status);
+    this.isleService.updateIsleStatus(new ObjectId(isleId), status);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(status);
   }
 }
