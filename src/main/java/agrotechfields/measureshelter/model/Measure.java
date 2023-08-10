@@ -2,15 +2,16 @@ package agrotechfields.measureshelter.model;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 import agrotechfields.measureshelter.utils.Direction;
 
 public class Measure {
 
-  @Id
-  private int id;
+  @MongoId
+  private ObjectId id;
 
-  private int isleId;
+  private ObjectId isleId;
 
   private double airTemperature;
 
@@ -48,8 +49,10 @@ public class Measure {
    * @param windSpeed Wind speed.
    * @param direction Wind direction.
    */
-  public Measure(int isleId, double airTemp, double groundTemp, double airHmdt, double groundHmdt,
-      double precipitation, double solarRad, double windSpeed, Direction direction) {
+  public Measure(ObjectId id, ObjectId isleId, double airTemp, double groundTemp, double airHmdt,
+      double groundHmdt, double precipitation, double solarRad, double windSpeed,
+      Direction direction) {
+    this.id = id;
     this.isleId = isleId;
     this.airTemperature = airTemp;
     this.groundTemperature = groundTemp;
@@ -62,19 +65,19 @@ public class Measure {
     this.timestamp = LocalDateTime.now().atOffset(ZoneOffset.of("-03:00")).toLocalDateTime();
   }
 
-  public int getId() {
+  public ObjectId getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(ObjectId id) {
     this.id = id;
   }
 
-  public int getIsleId() {
+  public ObjectId getIsleId() {
     return isleId;
   }
 
-  public void setIsleId(int isleId) {
+  public void setIsleId(ObjectId isleId) {
     this.isleId = isleId;
   }
 
