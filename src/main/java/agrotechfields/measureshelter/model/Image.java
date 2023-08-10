@@ -2,12 +2,13 @@ package agrotechfields.measureshelter.model;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import org.springframework.data.annotation.Id;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 public class Image {
 
-  @Id
-  private int id;
+  @MongoId
+  private ObjectId id;
 
   private String name;
 
@@ -26,17 +27,18 @@ public class Image {
    * @param name Image name.
    * @param bytes Image bytes.
    */
-  public Image(String name, byte[] bytes) {
+  public Image(ObjectId id, String name, byte[] bytes) {
+    this.id = id;
     this.name = name;
     this.bytes = bytes;
     this.timestamp = LocalDateTime.now().atOffset(ZoneOffset.of("-03:00")).toLocalDateTime();
   }
 
-  public int getId() {
+  public ObjectId getId() {
     return id;
   }
 
-  public void setId(int id) {
+  public void setId(ObjectId id) {
     this.id = id;
   }
 
