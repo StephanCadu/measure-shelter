@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.ImageDto;
@@ -18,7 +19,7 @@ public class ImageService {
     return this.imageRepository.findAll();
   }
 
-  public Image findImageById(int imageId) {
+  public Image findImageById(ObjectId imageId) {
     Optional<Image> imageFound = this.imageRepository.findById(imageId);
 
     if (imageFound.isEmpty()) {
@@ -45,9 +46,7 @@ public class ImageService {
       // throw ObjectAlreadyExistsException
     }
 
-    Image image = new Image();
-    image.setName(imageDto.getName());
-    image.setBytes(imageDto.getBytes());
+    Image image = new Image(null, imageDto.getName(), imageDto.getBytes());
 
     return this.imageRepository.insert(image);
   }
