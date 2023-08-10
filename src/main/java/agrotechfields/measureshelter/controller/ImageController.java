@@ -1,6 +1,7 @@
 package agrotechfields.measureshelter.controller;
 
 import java.util.List;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +24,9 @@ public class ImageController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Image> findImageById(@PathVariable("id") int imageId) {
-    Image image = this.imageService.findImageById(imageId);
+  public ResponseEntity<Image> findImageById(@PathVariable("id") String imageId) {
+    ObjectId id = new ObjectId(imageId);
+    Image image = this.imageService.findImageById(id);
     return ResponseEntity.status(HttpStatus.OK).body(image);
   }
 
