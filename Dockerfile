@@ -1,7 +1,11 @@
 FROM openjdk:11.0-jdk as build-image
 RUN mkdir -p /app/source
-COPY . /app/source
 WORKDIR /app/source
+COPY .mvn/ .mvn
+COPY mvnw pom.xml ./
+RUN ./mvnw dependency:resolve
+COPY src ./src
+COPY . /app/source
 RUN ./mvnw clean package
 
 FROM openjdk:11.0-jre
