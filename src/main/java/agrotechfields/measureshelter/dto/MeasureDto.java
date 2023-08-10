@@ -10,7 +10,7 @@ import agrotechfields.measureshelter.utils.Direction;
 public class MeasureDto {
 
   @NotNull
-  private int isleId;
+  private String isleId;
 
   @NotNull
   @Min(value = -273)
@@ -70,7 +70,7 @@ public class MeasureDto {
    * @param windSpeed Wind speed.
    * @param direction Wind direction.
    */
-  public MeasureDto(int isleId, double airTemp, double groundTemp, double airHmdt,
+  public MeasureDto(String isleId, double airTemp, double groundTemp, double airHmdt,
       double groundHmdt, double precipitation, double solarRad, double windSpeed,
       Direction direction) {
     this.isleId = isleId;
@@ -85,11 +85,11 @@ public class MeasureDto {
     this.timestamp = LocalDateTime.now().atOffset(ZoneOffset.of("-03:00")).toLocalDateTime();
   }
 
-  public int getIsleId() {
+  public String getIsleId() {
     return isleId;
   }
 
-  public void setIsleId(int isleId) {
+  public void setIsleId(String isleId) {
     this.isleId = isleId;
   }
 
