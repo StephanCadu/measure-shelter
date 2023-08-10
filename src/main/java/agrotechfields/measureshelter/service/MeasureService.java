@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.MeasureDto;
@@ -23,7 +24,7 @@ public class MeasureService {
     return this.measureRepository.findAll();
   }
 
-  public Measure findMeadureById(int measureId) {
+  public Measure findMeasureById(ObjectId measureId) {
     Optional<Measure> measureFound = this.measureRepository.findById(measureId);
 
     if (measureFound.isEmpty()) {
@@ -38,7 +39,7 @@ public class MeasureService {
   }
 
   public Measure saveMeasure(MeasureDto measureDto) {
-    Optional<Isle> isle = isleRepository.findById(measureDto.getIsleId());
+    Optional<Isle> isle = isleRepository.findById(new ObjectId(measureDto.getIsleId()));
 
     if (isle.isEmpty()) {
       // throw ObjectNotFoundException
@@ -48,32 +49,26 @@ public class MeasureService {
       // throw IsleNotWorkingException
     }
 
-    Measure measure = new Measure();
-    measure.setAirTemperature(measureDto.getAirTemperature());
-    measure.setGroundTemperature(measureDto.getGroundTemperature());
-    measure.setAirHumidity(measureDto.getAirHumidity());
-    measure.setGroundHumidity(measureDto.getGroundHumidity());
-    measure.setIsleId(measureDto.getIsleId());
-    measure.setPrecipitation(measureDto.getPrecipitation());
-    measure.setSolarRadiation(measureDto.getSolarRadiation());
-    measure.setWindDirection(measureDto.getWindDirection());
-    measure.setWindSpeed(measureDto.getWindSpeed());
+    Measure measure = new Measure(null, new ObjectId(measureDto.getIsleId()),
+        measureDto.getAirTemperature(), measureDto.getGroundTemperature(),
+        measureDto.getAirHumidity(), measureDto.getGroundHumidity(), measureDto.getPrecipitation(),
+        measureDto.getSolarRadiation(), measureDto.getWindSpeed(), measureDto.getWindDirection());
 
     return this.measureRepository.insert(measure);
   }
 
-  public void deleteMeasure(int measureId) {
+  public void deleteMeasure(ObjectId measureId) {
     this.measureRepository.deleteById(measureId);
   }
 
-  public Measure updateMeasure(int measureId, MeasureDto measureDto) {
-    Measure measure = this.findMeadureById(measureId);
+  public Measure updateMeasure(ObjectId measureId, MeasureDto measureDto) {
+    Measure measure = this.findMeasureById(measureId);
 
     measure.setAirTemperature(measureDto.getAirTemperature());
     measure.setGroundTemperature(measureDto.getGroundTemperature());
     measure.setAirHumidity(measureDto.getAirHumidity());
     measure.setGroundHumidity(measureDto.getGroundHumidity());
-    measure.setIsleId(measureDto.getIsleId());
+    measure.setIsleId(new ObjectId(measureDto.getIsleId()));
     measure.setPrecipitation(measureDto.getPrecipitation());
     measure.setSolarRadiation(measureDto.getSolarRadiation());
     measure.setWindDirection(measureDto.getWindDirection());
