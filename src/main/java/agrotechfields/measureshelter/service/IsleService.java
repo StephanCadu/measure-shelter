@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.service;
 
 import java.util.List;
 import java.util.Optional;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.IsleDto;
@@ -18,7 +19,7 @@ public class IsleService {
     return this.isleRepository.findAll();
   }
 
-  public Isle findIsleById(int isleId) {
+  public Isle findIsleById(ObjectId isleId) {
     Optional<Isle> isleFound = this.isleRepository.findById(isleId);
 
     if (isleFound.isEmpty()) {
@@ -45,22 +46,18 @@ public class IsleService {
       // throw ObjectAlreadyExistsException
     }
 
-    Isle isle = new Isle();
-    isle.setAltitude(isleDto.getAltitude());
-    isle.setLatitude(isleDto.getLatitude());
-    isle.setLongitude(isleDto.getLongitude());
-    isle.setName(isleDto.getName());
-    isle.setStatus(isleDto.getStatus());
+    Isle isle = new Isle(null, isleDto.getName(), isleDto.getAltitude(), isleDto.getLatitude(),
+        isleDto.getLongitude(), isleDto.getStatus());
 
     return this.isleRepository.insert(isle);
   }
 
-  public void deleteIsle(int isleId) {
+  public void deleteIsle(ObjectId isleId) {
     Isle isle = this.findIsleById(isleId);
     this.isleRepository.delete(isle);
   }
 
-  public Isle updateIsle(int isleId, IsleDto isleDto) {
+  public Isle updateIsle(ObjectId isleId, IsleDto isleDto) {
     Isle isle = this.findIsleById(isleId);
 
     isle.setAltitude(isleDto.getAltitude());
@@ -72,7 +69,7 @@ public class IsleService {
     return this.isleRepository.save(isle);
   }
 
-  public boolean updateIsleStatus(int isleId, boolean status) {
+  public boolean updateIsleStatus(ObjectId isleId, boolean status) {
     Isle isle = this.findIsleById(isleId);
 
     isle.setStatus(status);
