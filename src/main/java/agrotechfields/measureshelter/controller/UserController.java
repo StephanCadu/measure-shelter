@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.controller;
 
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,13 +60,13 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<User> saveUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<User> saveUser(@Valid @RequestBody UserDto userDto) {
     User user = this.userService.saveUser(userDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(user);
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+  public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
     UsernamePasswordAuthenticationToken userAuthToken =
         new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
@@ -87,7 +88,7 @@ public class UserController {
 
   @PutMapping("/{id}")
   public ResponseEntity<User> updateUser(@PathVariable("id") int userId,
-      @RequestBody UserDto userDto) {
+      @Valid @RequestBody UserDto userDto) {
     User user = this.userService.updateUser(userId, userDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
   }
