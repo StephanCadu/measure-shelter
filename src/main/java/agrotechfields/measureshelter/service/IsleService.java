@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.IsleDto;
+import agrotechfields.measureshelter.exception.ObjectAlreadyExistsException;
+import agrotechfields.measureshelter.exception.ObjectNotFoundException;
 import agrotechfields.measureshelter.model.Isle;
 import agrotechfields.measureshelter.repository.IsleRepository;
 
@@ -23,7 +25,7 @@ public class IsleService {
     Optional<Isle> isleFound = this.isleRepository.findById(isleId);
 
     if (isleFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Isle with ID: " + isleId + " not found.");
     }
 
     return isleFound.get();
@@ -33,7 +35,7 @@ public class IsleService {
     Optional<Isle> isleFound = this.isleRepository.findByName(name);
 
     if (isleFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Isle with Name: " + name + " not found.");
     }
 
     return isleFound.get();
@@ -43,7 +45,8 @@ public class IsleService {
     Optional<Isle> isleFound = this.isleRepository.findByName(isleDto.getName());
 
     if (isleFound.isPresent()) {
-      // throw ObjectAlreadyExistsException
+      throw new ObjectAlreadyExistsException(
+          "Isle with Name: " + isleDto.getName() + " already exists.");
     }
 
     Isle isle = new Isle(null, isleDto.getName(), isleDto.getAltitude(), isleDto.getLatitude(),
