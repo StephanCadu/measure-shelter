@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.controller;
 
 import java.util.List;
 import javax.annotation.security.RolesAllowed;
+import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -44,7 +45,7 @@ public class IsleController {
   }
 
   @PostMapping
-  public ResponseEntity<Isle> saveIsle(@RequestBody IsleDto isleDto) {
+  public ResponseEntity<Isle> saveIsle(@Valid @RequestBody IsleDto isleDto) {
     Isle isle = this.isleService.saveIsle(isleDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(isle);
   }
@@ -59,7 +60,7 @@ public class IsleController {
   @PutMapping("/{id}")
   @RolesAllowed("ADMIN")
   public ResponseEntity<Isle> updateIsle(@PathVariable("id") String isleId,
-      @RequestBody IsleDto isleDto) {
+      @Valid @RequestBody IsleDto isleDto) {
     Isle isle = this.isleService.updateIsle(new ObjectId(isleId), isleDto);
     return ResponseEntity.status(HttpStatus.ACCEPTED).body(isle);
   }
