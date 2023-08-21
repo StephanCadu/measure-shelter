@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.ImageDto;
+import agrotechfields.measureshelter.exception.ObjectAlreadyExistsException;
+import agrotechfields.measureshelter.exception.ObjectNotFoundException;
 import agrotechfields.measureshelter.model.Image;
 import agrotechfields.measureshelter.repository.ImageRepository;
 
@@ -23,7 +25,7 @@ public class ImageService {
     Optional<Image> imageFound = this.imageRepository.findById(imageId);
 
     if (imageFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Image with ID: " + imageId + " not found.");
     }
 
     return imageFound.get();
@@ -33,7 +35,7 @@ public class ImageService {
     Optional<Image> imageFound = this.imageRepository.findByName(imageName);
 
     if (imageFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Image with Name: " + imageName + " not found.");
     }
 
     return imageFound.get();
@@ -43,7 +45,8 @@ public class ImageService {
     Optional<Image> imageFound = this.imageRepository.findByName(imageDto.getName());
 
     if (imageFound.isPresent()) {
-      // throw ObjectAlreadyExistsException
+      throw new ObjectAlreadyExistsException(
+          "Image with Name: " + imageDto.getName() + " already exists.");
     }
 
     Image image = new Image(null, imageDto.getName(), imageDto.getBytes());
