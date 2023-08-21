@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.UserDto;
+import agrotechfields.measureshelter.exception.ObjectAlreadyExistsException;
+import agrotechfields.measureshelter.exception.ObjectNotFoundException;
 import agrotechfields.measureshelter.model.User;
 import agrotechfields.measureshelter.repository.UserRepository;
 
@@ -23,11 +25,11 @@ public class UserService {
     return this.userRepository.findAll();
   }
 
-  public User findUserById(ObjectId userId) {
+  public User findUserById(ObjectId userId) throws ObjectNotFoundException {
     Optional<User> userFound = this.userRepository.findById(userId);
 
     if (userFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("User with ID: " + userId + " not found.");
     }
 
     return userFound.get();
@@ -37,7 +39,8 @@ public class UserService {
     Optional<User> userFound = this.userRepository.findByUsername(userDto.getUsername());
 
     if (userFound.isPresent()) {
-      // throw ObjectAlreadyExistsException
+      throw new ObjectAlreadyExistsException(
+          "User with Name: " + userDto.getUsername() + " already exists.");
     }
 
     String encodedPass = passwordEncoder.encode(userDto.getPassword());
@@ -55,7 +58,7 @@ public class UserService {
     Optional<User> userFound = this.userRepository.findByUsername(userDto.getUsername());
 
     if (userFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("User with ID: " + userId + " not found.");
     }
 
     User user = userFound.get();
