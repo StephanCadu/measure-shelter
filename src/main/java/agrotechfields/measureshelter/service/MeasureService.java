@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import agrotechfields.measureshelter.dto.MeasureDto;
+import agrotechfields.measureshelter.exception.IsleNotWorkingException;
+import agrotechfields.measureshelter.exception.ObjectNotFoundException;
 import agrotechfields.measureshelter.model.Isle;
 import agrotechfields.measureshelter.model.Measure;
 import agrotechfields.measureshelter.repository.IsleRepository;
@@ -28,7 +30,7 @@ public class MeasureService {
     Optional<Measure> measureFound = this.measureRepository.findById(measureId);
 
     if (measureFound.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Measure with ID: " + measureId + " not found.");
     }
 
     return measureFound.get();
@@ -42,11 +44,12 @@ public class MeasureService {
     Optional<Isle> isle = isleRepository.findById(new ObjectId(measureDto.getIsleId()));
 
     if (isle.isEmpty()) {
-      // throw ObjectNotFoundException
+      throw new ObjectNotFoundException("Isle with ID: " + measureDto.getIsleId() + " not found.");
     }
 
     if (!isle.get().getStatus()) {
-      // throw IsleNotWorkingException
+      throw new IsleNotWorkingException(
+          "Isle with ID: " + measureDto.getIsleId() + " is not working.");
     }
 
     Measure measure = new Measure(null, new ObjectId(measureDto.getIsleId()),
