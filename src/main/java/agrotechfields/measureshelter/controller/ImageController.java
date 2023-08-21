@@ -1,6 +1,7 @@
 package agrotechfields.measureshelter.controller;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class ImageController {
   }
 
   @PostMapping
-  public ResponseEntity<Image> saveImage(@RequestBody ImageDto imageDto) {
+  public ResponseEntity<Image> saveImage(@Valid @RequestBody ImageDto imageDto) {
     Image image = this.imageService.saveImage(imageDto);
     return ResponseEntity.status(HttpStatus.CREATED).body(image);
   }
