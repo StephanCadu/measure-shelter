@@ -3,8 +3,10 @@ package agrotechfields.measureshelter.model;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
+@Document
 public class Image {
 
   @MongoId
