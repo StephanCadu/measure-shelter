@@ -1,5 +1,3 @@
-Measure Shelter - AgroTechfields.
-
 # Measure Shelter - AgroTechfields.
 
 API em Java para fazer medidas de solo e automatizar o processo de plantio.
