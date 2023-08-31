@@ -1,15 +1,7 @@
 version: '3.7'
 services:
-  measure-shelter:
-    image: measure-shelter
-    build: .
-    restart: always
-    ports:
-      - 8080:8080
-    links:
-      - mongo:database
-    
   mongo:
+    container_name: mongo
     image: mongo
     restart: always
     ports:
@@ -17,3 +9,24 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_URI: mongodb://mongo_db:27017/measure-shelter
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok' | mongosh mongodb://localhost:27017/test --quiet
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  measure-shelter:
+    container_name: measure-shelter
+    image: measure-shelter
+    build: .
+    restart: always
+    ports:
+      - 8080:8080
+    environment:
+      - MONGO_URI=mongodb://root:password@localhost:27017/measure-shelter?authSource=admin
+      - SPRING_DATA_MONGODB_HOST=mongo
+      - SPRING_DATA_MONGODB_PORT=27018
+    depends_on:
+      mongo:
+        condition: service_healthy
