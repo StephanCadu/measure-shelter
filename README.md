@@ -51,6 +51,7 @@ O Deploy dessa aplicação ainda não foi realizado.
 * JUnit 5
 * Spring Boot
 * Docker
+* MongoDB
 
 ---
 ⌨️ com ❤️ por [Carlos Eduardo Stephan](https://github.com/StephanCadu) 😊
