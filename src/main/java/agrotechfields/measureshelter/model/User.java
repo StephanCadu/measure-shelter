@@ -3,12 +3,14 @@ package agrotechfields.measureshelter.model;
 import java.util.Collection;
 import java.util.List;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import agrotechfields.measureshelter.utils.Role;
 
+@Document
 public class User implements UserDetails {
 
   @MongoId
