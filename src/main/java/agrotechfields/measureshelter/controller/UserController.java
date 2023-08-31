@@ -1,7 +1,8 @@
 package agrotechfields.measureshelter.controller;
 
+import java.util.HashMap;
 import java.util.List;
-import javax.annotation.security.RolesAllowed;
+import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import agrotechfields.measureshelter.dto.LoginDto;
 import agrotechfields.measureshelter.dto.UserDto;
+import agrotechfields.measureshelter.dto.UserResponse;
 import agrotechfields.measureshelter.model.User;
 import agrotechfields.measureshelter.security.AuthenticationService;
 import agrotechfields.measureshelter.security.TokenService;
@@ -43,14 +45,16 @@ public class UserController {
   private AuthenticationManager authenticationManager;
 
   @GetMapping
-  public ResponseEntity<List<User>> findUsers() {
-    return ResponseEntity.status(HttpStatus.OK).body(this.userService.findUsers());
+  public ResponseEntity<List<UserResponse>> findUsers() {
+    List<UserResponse> users = this.userService.findUsers().stream()
+        .map(user -> new UserResponse(user)).collect(Collectors.toList());
+    return ResponseEntity.status(HttpStatus.OK).body(users);
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<User> findUserById(@PathVariable("id") String userId) {
+  public ResponseEntity<UserResponse> findUserById(@PathVariable("id") String userId) {
     User user = this.userService.findUserById(new ObjectId(userId));
-    return ResponseEntity.status(HttpStatus.OK).body(user);
+    return ResponseEntity.status(HttpStatus.OK).body(new UserResponse(user));
   }
 
   @GetMapping("/name/{name}")
@@ -60,13 +64,13 @@ public class UserController {
   }
 
   @PostMapping
-  public ResponseEntity<User> saveUser(@Valid @RequestBody UserDto userDto) {
+  public ResponseEntity<UserResponse> saveUser(@Valid @RequestBody UserDto userDto) {
     User user = this.userService.saveUser(userDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(user);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new UserResponse(user));
   }
 
   @PostMapping("/login")
-  public ResponseEntity<String> login(@Valid @RequestBody LoginDto loginDto) {
+  public ResponseEntity<HashMap<String, String>> login(@Valid @RequestBody LoginDto loginDto) {
     UsernamePasswordAuthenticationToken userAuthToken =
         new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword());
 
@@ -76,20 +80,24 @@ public class UserController {
 
     String token = this.tokenService.generateToken(user);
 
-    return ResponseEntity.status(HttpStatus.OK).body(token);
+    HashMap<String, String> map = new HashMap<String, String>();
+
+    map.put("token", token);
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
+  // @RolesAllowed("ADMIN")
   @DeleteMapping("/{id}")
-  @RolesAllowed("ADMIN")
   public ResponseEntity<String> deleteUser(@PathVariable("id") String userId) {
     this.userService.deleteUser(new ObjectId(userId));
     return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<User> updateUser(@PathVariable("id") int userId,
+  public ResponseEntity<UserResponse> updateUser(@PathVariable("id") String userId,
       @Valid @RequestBody UserDto userDto) {
     User user = this.userService.updateUser(userId, userDto);
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(new UserResponse(user));
   }
 }
