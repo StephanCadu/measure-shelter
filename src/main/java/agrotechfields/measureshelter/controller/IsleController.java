@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import agrotechfields.measureshelter.dto.IsleDto;
+import agrotechfields.measureshelter.dto.IsleResponse;
 import agrotechfields.measureshelter.model.Isle;
 import agrotechfields.measureshelter.service.IsleService;
 
@@ -33,21 +34,21 @@ public class IsleController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Isle> findIsleById(@PathVariable("id") String isleId) {
+  public ResponseEntity<IsleResponse> findIsleById(@PathVariable("id") String isleId) {
     Isle isle = this.isleService.findIsleById(new ObjectId(isleId));
-    return ResponseEntity.status(HttpStatus.OK).body(isle);
+    return ResponseEntity.status(HttpStatus.OK).body(new IsleResponse(isle));
   }
 
   @GetMapping("/is/{name}")
-  public ResponseEntity<Isle> findIsleByName(@PathVariable("name") String name) {
+  public ResponseEntity<IsleResponse> findIsleByName(@PathVariable("name") String name) {
     Isle isle = this.isleService.findIsleByName(name);
-    return ResponseEntity.status(HttpStatus.OK).body(isle);
+    return ResponseEntity.status(HttpStatus.OK).body(new IsleResponse(isle));
   }
 
   @PostMapping
-  public ResponseEntity<Isle> saveIsle(@Valid @RequestBody IsleDto isleDto) {
+  public ResponseEntity<IsleResponse> saveIsle(@Valid @RequestBody IsleDto isleDto) {
     Isle isle = this.isleService.saveIsle(isleDto);
-    return ResponseEntity.status(HttpStatus.CREATED).body(isle);
+    return ResponseEntity.status(HttpStatus.CREATED).body(new IsleResponse(isle));
   }
 
   @DeleteMapping("/{id}")
@@ -59,10 +60,10 @@ public class IsleController {
 
   @PutMapping("/{id}")
   @RolesAllowed("ADMIN")
-  public ResponseEntity<Isle> updateIsle(@PathVariable("id") String isleId,
+  public ResponseEntity<IsleResponse> updateIsle(@PathVariable("id") String isleId,
       @Valid @RequestBody IsleDto isleDto) {
     Isle isle = this.isleService.updateIsle(new ObjectId(isleId), isleDto);
-    return ResponseEntity.status(HttpStatus.ACCEPTED).body(isle);
+    return ResponseEntity.status(HttpStatus.ACCEPTED).body(new IsleResponse(isle));
   }
 
   @PatchMapping("/{id}")
