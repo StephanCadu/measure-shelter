@@ -3,9 +3,11 @@ package agrotechfields.measureshelter.model;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 import agrotechfields.measureshelter.utils.Direction;
 
+@Document
 public class Measure {
 
   @MongoId
