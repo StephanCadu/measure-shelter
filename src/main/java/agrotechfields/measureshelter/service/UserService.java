@@ -54,8 +54,8 @@ public class UserService {
     this.userRepository.deleteById(userId);
   }
 
-  public User updateUser(int userId, UserDto userDto) {
-    Optional<User> userFound = this.userRepository.findByUsername(userDto.getUsername());
+  public User updateUser(String userId, UserDto userDto) {
+    Optional<User> userFound = this.userRepository.findById(new ObjectId(userId));
 
     if (userFound.isEmpty()) {
       throw new ObjectNotFoundException("User with ID: " + userId + " not found.");
