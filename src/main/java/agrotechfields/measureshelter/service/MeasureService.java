@@ -2,6 +2,7 @@ package agrotechfields.measureshelter.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,11 @@ public class MeasureService {
     return measureFound.get();
   }
 
-  public List<Measure> findMeasuresByIsle(int isleId) {
-    return this.measureRepository.findByIsleId(isleId);
+  public List<Measure> findMeasuresByIsle(String isleId) {
+    List<Measure> filteredMeasures = this.measureRepository.findAll().stream()
+        .filter(measure -> measure.getIsleId().toString().equals(isleId))
+        .collect(Collectors.toList());
+    return filteredMeasures;
   }
 
   public Measure saveMeasure(MeasureDto measureDto) {
