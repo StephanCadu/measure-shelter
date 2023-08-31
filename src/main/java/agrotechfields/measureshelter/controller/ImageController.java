@@ -10,14 +10,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import agrotechfields.measureshelter.dto.ImageDto;
 import agrotechfields.measureshelter.model.Image;
 import agrotechfields.measureshelter.service.ImageService;
 
+@RestController
+@RequestMapping("/image")
 public class ImageController {
 
-  @Autowired
   private ImageService imageService;
+
+  @Autowired
+  public void setImageService(ImageService imageService) {
+    this.imageService = imageService;
+  }
 
   @GetMapping
   public ResponseEntity<List<Image>> findImages() {
